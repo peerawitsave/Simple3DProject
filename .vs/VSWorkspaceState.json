@@ -13,6 +13,6 @@
     "\\third_party",
     "\\third_party\\imgui"
   ],
-  "SelectedNode": "\\shaders\\basic.vert",
+  "SelectedNode": "\\main.cpp",
   "PreviewInSolutionExplorer": false
 }

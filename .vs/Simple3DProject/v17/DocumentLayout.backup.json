@@ -7,24 +7,24 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\shaders\\basic.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:shaders\\basic.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\shaders\\basic.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:shaders\\basic.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\Mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\shaders\\basic.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:shaders\\basic.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\Mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|CMake Overview Pages||{B1CAA5B0-FEB1-4350-8AB9-F895876842F2}"
@@ -41,55 +41,51 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "basic.frag",
               "DocumentMoniker": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\shaders\\basic.frag",
               "RelativeDocumentMoniker": "shaders\\basic.frag",
               "ToolTip": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\shaders\\basic.frag",
               "RelativeToolTip": "shaders\\basic.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABIAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-07-10T05:36:40.08Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T05:36:40.08Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "basic.vert",
               "DocumentMoniker": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\shaders\\basic.vert",
               "RelativeDocumentMoniker": "shaders\\basic.vert",
               "ToolTip": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\shaders\\basic.vert",
               "RelativeToolTip": "shaders\\basic.vert",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-07-10T05:36:33.823Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T05:36:33.823Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "Mesh.h",
               "DocumentMoniker": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\Mesh.h",
               "RelativeDocumentMoniker": "Mesh.h",
               "ToolTip": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\Mesh.h",
               "RelativeToolTip": "Mesh.h",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAkwBsAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-07-10T04:35:02.058Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T04:35:02.058Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Mesh.cpp",
               "DocumentMoniker": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\Mesh.cpp",
               "RelativeDocumentMoniker": "Mesh.cpp",
               "ToolTip": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\Mesh.cpp",
               "RelativeToolTip": "Mesh.cpp",
-              "ViewState": "AgIAACUAAAAAAAAAAAAIwEgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJ8AAAAAAAAAAAAAALcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-07-10T04:34:48.461Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T04:34:48.461Z"
             },
             {
               "$type": "Document",
@@ -99,9 +95,9 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAWwJoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALoAAAAAAAAAAAAAAL4AAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-07-10T04:34:32.757Z",
+              "WhenOpened": "2025-07-11T10:50:54.581Z",
               "EditorCaption": ""
             },
             {
@@ -111,21 +107,19 @@
               "DocumentMoniker": "CMake Overview Pages",
               "ToolTip": "CMake Overview Pages",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-07-10T04:32:49.406Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T04:32:49.406Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CMakeLists.txt",
               "DocumentMoniker": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\CMakeLists.txt",
               "RelativeDocumentMoniker": "CMakeLists.txt",
               "ToolTip": "C:\\Users\\KATANA\\OneDrive\\Documents\\GitHub\\Simple3DProject\\CMakeLists.txt",
               "RelativeToolTip": "CMakeLists.txt",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAIwDIAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-07-10T04:32:46.006Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-10T04:32:46.006Z"
             }
           ]
         }
