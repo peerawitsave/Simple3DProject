@@ -13,6 +13,11 @@ uniform int isShadow;
 
 void main()
 {
+    if (isShadow == 1) {
+        FragColor = vec4(0.0, 0.0, 0.0, 0.3); // Transparent black shadow
+        return;
+    }
+
     vec3 norm = normalize(Normal);
     vec3 light = normalize(lightDir);
 
@@ -21,19 +26,14 @@ void main()
 
     // Diffuse (Lambert)
     float diff = max(dot(norm, light), 0.0);
-    vec3 diffuse = diff * vColor;
+    vec3 diffuse = diff * vColor * lightColor;
 
     // Specular (Blinn-Phong)
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 halfwayDir = normalize(light + viewDir);
     float spec = pow(max(dot(norm, halfwayDir), 0.0), 32.0); // shininess
-    vec3 specular = spec * vec3(1.0); // white highlight
+    vec3 specular = spec * lightColor;
 
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
-
-    if (isShadow == 1) {
-    FragColor = vec4(0.0, 0.0, 0.0, 0.5); // semi-transparent black
-    return;
-}
 }

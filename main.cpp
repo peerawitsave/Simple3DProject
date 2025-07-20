@@ -1,5 +1,3 @@
-
-// [top includes unchanged]
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -71,7 +69,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Simple 3D Object", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1600, 900, "Simple 3D Object", nullptr, nullptr);
     if (!window) {
         std::cerr << "Failed to create GLFW window\n";
         glfwTerminate();
@@ -91,7 +89,7 @@ int main() {
     ImGui_ImplOpenGL3_Init("#version 330 core");
     ImGui::StyleColorsDark();
 
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, 1600, 900);
     glEnable(GL_DEPTH_TEST);
 
     GLuint shaderProgram = CreateShaderProgram("shaders/basic.vert", "shaders/basic.frag");
@@ -106,8 +104,14 @@ int main() {
     Mesh* backdrop = Mesh::CreateBackdropPlane();
 
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
-    float lightIntensity = 1.0f;
+    float lightIntensity = 5.0f;
     bool animateLight = false;
+
+    bool toggleUpDown = false;
+    bool toggleLeftRight = false;
+    bool toggleSpin = false;
+    float animationSpeed = 1.0f;
+    float timeOffset = 0.0f;
 
     while (!glfwWindowShouldClose(window)) {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -117,28 +121,49 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("Shape & Lighting", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove);
+        ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always);
+        ImGui::Begin("Shape & Lighting", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
         ImGui::SetWindowPos(ImVec2(10, 10));
+
         ImGui::Checkbox("Enable 3D Mode", &is3DMode);
         const char* lightOptions[] = { "Top-Left", "Bottom-Right", "Front" };
         static int selectedLight = 0;
         ImGui::Combo("Light Direction", &selectedLight, lightOptions, IM_ARRAYSIZE(lightOptions));
         ImGui::Checkbox("Animate Light", &animateLight);
+
+        ImGui::Separator();
+        ImGui::Text("Shape");
         if (ImGui::Button("Show Triangle")) currentShape = TRIANGLE;
         if (ImGui::Button("Show Rectangle")) currentShape = RECTANGLE;
         if (ImGui::Button("Show Circle")) currentShape = CIRCLE;
         if (ImGui::Button("Show Pyramid")) currentShape = PYRAMID;
+
+        ImGui::Separator();
+        ImGui::Text("Animation");
+        ImGui::Checkbox("Move Up & Down", &toggleUpDown);
+        ImGui::Checkbox("Move Left & Right", &toggleLeftRight);
+        ImGui::Checkbox("Spin", &toggleSpin);
+        ImGui::SliderFloat("Speed", &animationSpeed, 0.1f, 5.0f);
+
+        ImGui::Separator();
         ImGui::ColorEdit3("Light Color", glm::value_ptr(lightColor));
-        ImGui::SliderFloat("Intensity", &lightIntensity, 0.0f, 5.0f);
         ImGui::End();
 
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shaderProgram);
 
         float time = glfwGetTime();
-        float offsetY = sin(time) * 0.2f;
-        float scale = 0.8f + 0.2f * sin(time * 2.0f);
+        timeOffset = time * animationSpeed;
+
+        glm::vec3 positionOffset(0.0f);
+        if (toggleUpDown) {
+            positionOffset.y += sin(timeOffset) * 0.5f;
+        }
+        if (toggleLeftRight) {
+            positionOffset.x += sin(timeOffset) * 0.5f;
+        }
 
         glm::vec3 lightPresets[] = {
             glm::normalize(glm::vec3(-0.5f, 1.0f, 0.3f)),
@@ -153,31 +178,50 @@ int main() {
         glm::mat4 projection = glm::mat4(1.0f);
         if (is3DMode) {
             view = glm::lookAt(cameraPos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+            projection = glm::perspective(glm::radians(45.0f), 1600.0f / 900.0f, 0.1f, 100.0f);
         }
 
-        // --- BACKDROP ---
-        glm::mat4 identityModel = glm::mat4(1.0f);
-        glUniform1i(glGetUniformLocation(shaderProgram, "isShadow"), 0);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(identityModel));
+        float d = -0.6f;
+        glm::mat4 projectionMat = glm::mat4(
+            1, 0, 0, 0,
+            -lightDir.x / lightDir.y, 0, -lightDir.z / lightDir.y, 0,
+            0, 0, 1, 0,
+            0, d, 0, 1
+        );
+
+        glm::vec3 moveOffset(0.0f);
+        if (toggleUpDown)
+            moveOffset.y = sin(time * animationSpeed) * 0.5f;
+        if (toggleLeftRight)
+            moveOffset.x = cos(time * animationSpeed) * 0.5f;
+
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, positionOffset + moveOffset);
+
+        glm::mat4 backdropModel = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.6f, 0.0f));
+
+
+        if (toggleSpin)
+            model = glm::rotate(model, time * animationSpeed, is3DMode ? glm::vec3(0.3f, 1.0f, 0.0f) : glm::vec3(0.0f, 0.0f, 1.0f));
+
+       
+        // Set common uniforms
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
         glUniform3fv(glGetUniformLocation(shaderProgram, "lightDir"), 1, glm::value_ptr(lightDir));
         glUniform3fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, glm::value_ptr(effectiveLight));
         glUniform3fv(glGetUniformLocation(shaderProgram, "viewPos"), 1, glm::value_ptr(cameraPos));
         glUniform1f(glGetUniformLocation(shaderProgram, "time"), time);
-        backdrop->Draw();
 
-        // --- SHADOW PASS ---
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, offsetY, 0.0f));
-        model = glm::scale(model, glm::vec3(scale, scale, 1.0f));
-        model = glm::rotate(model, time, is3DMode ? glm::vec3(0.3f, 1.0f, 0.0f) : glm::vec3(0.0f, 0.0f, 1.0f));
-
+        //DRAW BACKDROP
         glUniform1i(glGetUniformLocation(shaderProgram, "isShadow"), 0);
-        glm::mat4 identity = glm::mat4(1.0f);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(identity));
+        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(backdropModel));
         backdrop->Draw();
+
+        //DRAW SHADOW
+        glm::mat4 shadowModel = projectionMat * model;
+        glUniform1i(glGetUniformLocation(shaderProgram, "isShadow"), 1);
+        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(shadowModel));
 
         switch (currentShape) {
         case TRIANGLE: triangle->Draw(); break;
@@ -186,19 +230,18 @@ int main() {
         case PYRAMID: pyramid->Draw(); break;
         }
 
-        glm::mat4 shadowMat = glm::mat4(1.0f);
-        shadowMat = glm::translate(shadowMat, glm::vec3(0, 0.01f, 0)); // slight lift
-        shadowMat *= glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 1.0f)); // flatten Y
-
-        // --- MAIN OBJECT PASS ---
-        glUniform1i(glGetUniformLocation(shaderProgram, "isShadow"), 0);
+        //DRAW MAIN OBJECT
+        glUniform1i(glGetUniformLocation(shaderProgram, "isShadow"), 0); // Restore
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
         switch (currentShape) {
         case TRIANGLE: triangle->Draw(); break;
         case RECTANGLE: rectangle->Draw(); break;
         case CIRCLE: circle->Draw(); break;
         case PYRAMID: pyramid->Draw(); break;
         }
+
+
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

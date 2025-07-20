@@ -9,10 +9,7 @@
     "",
     "\\out",
     "\\out\\build",
-    "\\shaders",
-    "\\third_party",
-    "\\third_party\\imgui"
+    "\\shaders"
   ],
-  "SelectedNode": "\\main.cpp",
   "PreviewInSolutionExplorer": false
 }
