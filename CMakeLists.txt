@@ -15,7 +15,6 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/third_party/imgui
     ${CMAKE_SOURCE_DIR}/third_party/imgui/backends
 )
 
@@ -24,12 +23,10 @@ include_directories(
 add_executable(Simple3DProject
     main.cpp
     Mesh.cpp
-
-    # ImGui Core
-    third_party/imgui/imgui.cpp
-    third_party/imgui/imgui_draw.cpp
-    third_party/imgui/imgui_tables.cpp
-    third_party/imgui/imgui_widgets.cpp
+    Config.cpp
+    Texture.cpp
+    ResourceManager.cpp
+    SoundSystem.cpp
 
     # ImGui Backends
     third_party/imgui/backends/imgui_impl_glfw.cpp
@@ -49,6 +46,19 @@ add_custom_command(TARGET Simple3DProject POST_BUILD
     ${CMAKE_SOURCE_DIR}/shaders
     $<TARGET_FILE_DIR:Simple3DProject>/shaders
 )
+
+add_custom_command(TARGET Simple3DProject POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/textures
+    $<TARGET_FILE_DIR:Simple3DProject>/textures)
+
+add_custom_command(TARGET Simple3DProject POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/config
+    $<TARGET_FILE_DIR:Simple3DProject>/config)
+
+
+## ImGui is vendored via sources above. Do not also link vcpkg imgui to avoid duplicate symbols.
 
 
 find_package(imgui CONFIG REQUIRED)

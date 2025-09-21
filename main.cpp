@@ -12,8 +12,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Config.h"
+#include "ResourceManager.h"
+#include "Texture.h"
+#include "SoundSystem.h"
 
 bool is3DMode = false;
+bool useTexture = false;
+std::string texturePath = "";
+std::string audioPath = "";
 
 std::string LoadShaderSource(const std::string& filepath) {
     std::ifstream file(filepath);
@@ -60,6 +67,17 @@ GLuint CreateShaderProgram(const std::string& vertexPath, const std::string& fra
 }
 
 int main() {
+    // Load engine config
+    Config config;
+    config.loadFromFile("config/engine.ini");
+
+    int winW = config.getInt("window_width", 1600);
+    int winH = config.getInt("window_height", 900);
+    std::string winTitle = config.getString("window_title", "Simple 3D Object");
+    is3DMode = config.getBool("start_3d", false);
+    useTexture = config.getBool("use_texture", false);
+    texturePath = config.getString("texture_path", "textures/Metal/Metal053C_1K-JPG_Color.jpg");
+    audioPath = config.getString("audio_wav_path", "");
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW\n";
         return -1;
@@ -69,7 +87,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(1600, 900, "Simple 3D Object", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(winW, winH, winTitle.c_str(), nullptr, nullptr);
     if (!window) {
         std::cerr << "Failed to create GLFW window\n";
         glfwTerminate();
@@ -89,10 +107,28 @@ int main() {
     ImGui_ImplOpenGL3_Init("#version 330 core");
     ImGui::StyleColorsDark();
 
-    glViewport(0, 0, 1600, 900);
+    glViewport(0, 0, winW, winH);
     glEnable(GL_DEPTH_TEST);
 
     GLuint shaderProgram = CreateShaderProgram("shaders/basic.vert", "shaders/basic.frag");
+
+    ResourceManager resources;
+    std::shared_ptr<Texture> tex;
+    if (useTexture) {
+        tex = resources.getTexture(texturePath);
+        if (!tex) {
+            useTexture = false; // fallback if load failed
+        }
+    }
+
+    // Initialize sound system
+    SoundSystem sound;
+    sound.init();
+    bool playLoop = config.getBool("audio_loop", false);
+    bool audioEnabled = config.getBool("audio_enabled", false);
+    if (audioEnabled && !audioPath.empty()) {
+        sound.playWavFile(audioPath, playLoop);
+    }
 
     enum ShapeType { TRIANGLE, RECTANGLE, CIRCLE, PYRAMID };
     ShapeType currentShape = TRIANGLE;
@@ -139,11 +175,33 @@ int main() {
         if (ImGui::Button("Show Pyramid")) currentShape = PYRAMID;
 
         ImGui::Separator();
+        ImGui::Text("Rendering");
+        if (ImGui::Checkbox("Use Texture", &useTexture)) {
+            if (useTexture && !tex) {
+                tex = resources.getTexture(texturePath);
+                if (!tex) useTexture = false;
+            }
+        }
+        if (ImGui::Button("Reload Texture")) {
+            tex = resources.getTexture(texturePath);
+        }
+        ImGui::Text("Texture: %s", texturePath.c_str());
+
+        ImGui::Separator();
         ImGui::Text("Animation");
         ImGui::Checkbox("Move Up & Down", &toggleUpDown);
         ImGui::Checkbox("Move Left & Right", &toggleLeftRight);
         ImGui::Checkbox("Spin", &toggleSpin);
         ImGui::SliderFloat("Speed", &animationSpeed, 0.1f, 5.0f);
+
+        ImGui::Separator();
+        ImGui::Text("Audio");
+        if (ImGui::Button("Beep")) sound.playBeep();
+        if (ImGui::Button("Play WAV")) {
+            if (!audioPath.empty()) sound.playWavFile(audioPath, playLoop);
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Stop Audio")) sound.stop();
 
         ImGui::Separator();
         ImGui::ColorEdit3("Light Color", glm::value_ptr(lightColor));
@@ -212,6 +270,11 @@ int main() {
         glUniform3fv(glGetUniformLocation(shaderProgram, "lightColor"), 1, glm::value_ptr(effectiveLight));
         glUniform3fv(glGetUniformLocation(shaderProgram, "viewPos"), 1, glm::value_ptr(cameraPos));
         glUniform1f(glGetUniformLocation(shaderProgram, "time"), time);
+        glUniform1i(glGetUniformLocation(shaderProgram, "useTexture"), useTexture ? 1 : 0);
+        if (useTexture && tex) {
+            tex->bind(GL_TEXTURE0);
+            glUniform1i(glGetUniformLocation(shaderProgram, "tex0"), 0);
+        }
 
         //DRAW BACKDROP
         glUniform1i(glGetUniformLocation(shaderProgram, "isShadow"), 0);
@@ -255,6 +318,7 @@ int main() {
     delete pyramid;
     delete backdrop;
     glDeleteProgram(shaderProgram);
+    sound.shutdown();
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();

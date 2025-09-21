@@ -9,7 +9,10 @@
     "",
     "\\out",
     "\\out\\build",
-    "\\shaders"
+    "\\shaders",
+    "\\textures",
+    "\\textures\\Metal"
   ],
+  "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }
